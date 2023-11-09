@@ -1,3 +1,4 @@
+/* 共通のスタイル */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,37 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* 小さい画面（スマートフォンなど）のスタイル */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px; /* 小さい画面ではフォントサイズを小さくする */
+  }
+
+  code {
+    font-size: 12px; /* codeタグのフォントサイズも小さくする */
+  }
+}
+
+/* 中くらいの画面（タブレットなど）のスタイル */
+@media (min-width: 601px) and (max-width: 1024px) {
+  body {
+    font-size: 16px; /* 中くらいの画面ではフォントサイズを標準にする */
+  }
+
+  code {
+    font-size: 14px; /* codeタグのフォントサイズを標準にする */
+  }
+}
+
+/* 大きい画面（デスクトップなど）のスタイル */
+@media (min-width: 1025px) {
+  body {
+    font-size: 18px; /* 大きい画面ではフォントサイズを大きくする */
+  }
+
+  code {
+    font-size: 16px; /* codeタグのフォントサイズも大きくする */
+  }
 }
