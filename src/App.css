@@ -2,6 +2,8 @@
 body {
   font-family: 'Arial', sans-serif;
   background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  position: relative;
+  overflow: hidden;
 }
 
 /* Centered heading style */
@@ -74,3 +76,34 @@ button:disabled {
 button:focus, input:focus, select:focus {
   outline: 3px solid #5cb85c;
 }
+
+
+@keyframes victoryFlash {
+  0%, 100% { background-color: #c2e9fb; }
+  50% { background-color: #a1c4fd; }
+}
+
+
+@keyframes defeatShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.victory-animation {
+  animation: victoryFlash 0.5s infinite alternate;
+}
+
+.defeat-animation {
+  animation: defeatShake 1.5s;
+  display: inline-block;
+  position: relative;
+  overflow: visible; /* Ensure the shaking effect is visible */
+}
+
+.App {
+  position: relative; /* Needed for proper animation of child elements */
+  overflow: hidden; /* Only use if you want to contain all child animations within the .App div */
+}
+
+

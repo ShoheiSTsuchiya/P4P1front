@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState } from 'react';
 import GameBoard from './components/GameBoard';
 import LetterInput from './components/LetterInput';
@@ -64,28 +63,30 @@ const App = () => {
   // Calculate the number of remaining guesses
   const remainingGuesses = maxWrongGuesses - wrongGuesses.length;
 
+  // Determine the game end class based on the game state
+  const gameEndClass = !hiddenPhrase.includes('*') ? 'victory-animation' 
+                    : wrongGuesses.length >= maxWrongGuesses ? 'defeat-animation' 
+                    : '';
+
   // Render the game UI
   return (
-    <div>
-      <h1>React Wheel Of Fortune</h1>
+    <div className={`App fade-in ${gameEndClass}`}>
+      <h1 className="fade-in">React Wheel Of Fortune</h1>
       <p>Welcome to the game! Try to guess the hidden phrase, one letter at a time.</p>
       <p>You have a maximum of {maxWrongGuesses} incorrect guesses. Use them wisely!</p>
       
-      <GameBoard hiddenPhrase={hiddenPhrase} wrongGuesses={wrongGuesses} />
+      <GameBoard className="fade-in" hiddenPhrase={hiddenPhrase} wrongGuesses={wrongGuesses} />
       <LetterInput onGuess={handleGuess} disabled={remainingGuesses <= 0} />
       
       <p>You have {remainingGuesses} guesses left.</p>
 
-      {/* Display a congratulatory message if the phrase is fully guessed */}
-      {!hiddenPhrase.includes('*') && <p>Congratulations! You guessed the hidden sentence.</p>}
-      {/* Display a game over message if the user runs out of guesses */}
-      {wrongGuesses.length >= maxWrongGuesses && <p>Out of chances. The hidden sentence was: "{phrase}".</p>}
+      {!hiddenPhrase.includes('*') && <p className="fade-in">Congratulations! You've uncovered the hidden phrase!</p>}
+      {wrongGuesses.length >= maxWrongGuesses && <p className="fade-in">Out of chances. The phrase was: "{phrase}".</p>}
       
-      {/* Provide a button to reset the game based on the game state */}
       {(hiddenPhrase.includes('*') && wrongGuesses.length < maxWrongGuesses) ? (
-        <button onClick={resetGame}>Start New Game</button>
+        <button className="state-change" onClick={resetGame}>Start New Game</button>
       ) : (
-        <button onClick={resetGame}>Play Again</button>
+        <button className="fade-in" onClick={resetGame}>Play Again</button>
       )}
     </div>
   );
