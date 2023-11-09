@@ -1,12 +1,15 @@
-/* App.css */
+/* Base styles for the body, setting font and background gradient */
 body {
   font-family: 'Arial', sans-serif;
+  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
 }
 
+/* Centered heading style */
 h1 {
   text-align: center;
 }
 
+/* Style for game phrases with spacing and size */
 .GameBoard-phrase {
   font-size: 2rem;
   text-align: center;
@@ -15,84 +18,59 @@ h1 {
   word-spacing: 10px;
 }
 
+/* Style for incorrect guesses with color */
 .GameBoard-wrongGuesses {
   color: red;
   text-align: center;
   margin-top: 20px;
 }
 
-
-input[type="text"] {
-  font-size: 2rem;
-  text-align: center;
-  padding: 10px;
-  margin-right: 10px;
-  width: 50px;
-}
-
-button {
-  padding: 15px 30px;
-  font-size: 1.25rem;
-  cursor: pointer;
-  background-color: #5cb85c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.1s ease;
-}
-
+/* Button hover effect */
 button:hover {
   background-color: #4cae4c;
   transform: translateY(-2px);
 }
 
+/* Button active state effect */
 button:active {
   transform: translateY(1px);
 }
 
+/* Disabled button style */
 button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
 
-
-form {
-  display: flex;
-  justify-content: center;
-  margin: 20px auto;
-  width: 90%;
-  max-width: 400px;
-}
-
+/* Fade-in animation for elements */
 .fade-in {
   animation: fadeIn 1s;
 }
 
+/* Keyframes for the fade-in animation */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* ゲームの状態が変わった時のトランジション */
+/* Transition effect for state changes */
 .state-change {
-  transition: background-color 0.5s ease;
+  transition: background-color 0.3s ease;
 }
 
-body {
-  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-}
-
+/* Game board specific styles */
 .game-board {
   border: 2px solid #444;
   box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
 }
 
+/* High contrast mode for better visibility */
 .high-contrast {
   color: #000;
   background-color: #fff;
 }
 
+/* Focus outline for accessibility */
 button:focus, input:focus, select:focus {
-  outline: 3px solid #5cb85c; 
+  outline: 3px solid #5cb85c;
 }

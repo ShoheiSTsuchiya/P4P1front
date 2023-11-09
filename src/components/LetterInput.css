@@ -4,6 +4,8 @@ input[type="text"] {
     margin-right: 10px;
     border: 2px solid #ddd;
     border-radius: 4px;
+    width: 2em;
+    text-align: center;  
   }
   
   button {
