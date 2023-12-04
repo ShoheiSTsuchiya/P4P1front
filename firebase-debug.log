@@ -1,13 +1,14 @@
-[debug] [2023-12-02T00:59:10.648Z] ----------------------------------------------------------------------
-[debug] [2023-12-02T00:59:10.651Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\shohe\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2023-12-02T00:59:10.652Z] CLI Version:   12.9.1
-[debug] [2023-12-02T00:59:10.652Z] Platform:      win32
-[debug] [2023-12-02T00:59:10.652Z] Node Version:  v20.9.0
-[debug] [2023-12-02T00:59:10.652Z] Time:          Fri Dec 01 2023 16:59:10 GMT-0800 (Pacific Standard Time)
-[debug] [2023-12-02T00:59:10.652Z] ----------------------------------------------------------------------
+[debug] [2023-12-04T04:33:32.166Z] ----------------------------------------------------------------------
+[debug] [2023-12-04T04:33:32.169Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\shohe\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2023-12-04T04:33:32.169Z] CLI Version:   12.9.1
+[debug] [2023-12-04T04:33:32.170Z] Platform:      win32
+[debug] [2023-12-04T04:33:32.170Z] Node Version:  v20.9.0
+[debug] [2023-12-04T04:33:32.170Z] Time:          Sun Dec 03 2023 20:33:32 GMT-0800 (Pacific Standard Time)
+[debug] [2023-12-04T04:33:32.170Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2023-12-02T00:59:10.659Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2023-12-02T00:59:10.659Z] > authorizing via signed-in user (shohei.t.0920@gmail.com)
+[debug] [2023-12-04T04:33:32.174Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-12-04T04:33:32.235Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-12-04T04:33:32.236Z] > authorizing via signed-in user (shohei.t.0920@gmail.com)
 [info] 
      ######## #### ########  ######## ########     ###     ######  ########
      ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
@@ -19,3 +20,12 @@ You're about to initialize a Firebase project in this directory:
 
   C:\Users\shohe\labintro
 
+[debug] [2023-12-04T04:33:32.415Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-12-04T04:33:32.416Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 

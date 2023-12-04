@@ -42,6 +42,22 @@ function LoginForm({LoginEvent}) {
 		setLoggedUser(null)
 	}
 
+	useEffect(() => {
+      const auth = getAuth();
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+          // ユーザーがサインインした場合、この部分が実行されます
+          console.log(user);
+          setLoggedUser(user);
+          LoginEvent(user); // 親コンポーネントにユーザー情報を渡します
+        }
+      });
+
+      // コンポーネントのアンマウント時にリスナーを解除します
+      return () => unsubscribe();
+    }, []);
+
+
 
 	// note the ? to show either login or logout button
 	return (

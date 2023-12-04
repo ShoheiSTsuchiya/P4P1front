@@ -11,30 +11,46 @@ const ApiService = {
       .catch(onError);
   },
 
-   fetchUserScores: (user, onSuccess, onError) => {
-      if (!user) {
-        onError(new Error("No user provided"));
-        return;
-      }
-      axios.get('https://project4-back-end.wl.r.appspot.com/fetchUserScores', {
-        params: {
-          googleId: user.uid
-        }
+  userExists: (googleId) => {
+    return axios.get(`https://project4-back-end.wl.r.appspot.com/api/userExists/${googleId}`)
+      .then(response => {
+        return response.data.exists;
       })
-      .then(onSuccess)
-      .catch(onError);
-    },
-
-  fetchHighScores: (currentPage, pageSize, onSuccess, onError) => {
-    axios.get('https://project4-back-end.wl.r.appspot.com/fetchHighScores', {
-      params: {
-        page: currentPage,
-        size: pageSize
-      }
-    })
-    .then(onSuccess)
-    .catch(onError);
+      .catch(error => {
+        console.error('Error checking user existence:', error);
+        throw error; // Propagate error to the caller
+      });
   },
+
+
+   fetchUserScores: (user) => {
+     if (!user) {
+       return Promise.reject(new Error("No user provided"));
+     }
+     return axios.get('https://project4-back-end.wl.r.appspot.com/fetchUserScores', {
+       params: {
+         googleId: user.uid
+       }
+     }).then(response => response.data)
+       .catch(error => {
+         console.error('Error fetching user scores:', error);
+         throw error;
+       });
+   },
+
+   fetchHighScores: (currentPage, pageSize) => {
+     return axios.get('https://project4-back-end.wl.r.appspot.com/fetchHighScores', {
+       params: {
+         page: currentPage,
+         size: pageSize
+       }
+     }).then(response => response.data)
+       .catch(error => {
+         console.error('Error fetching high scores:', error);
+         throw error;
+       });
+   },
+
 
   changeUserHandle: (user, newHandle, onSuccess, onError) => {
       if (!user) {
