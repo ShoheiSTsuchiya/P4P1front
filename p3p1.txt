@@ -1,0 +1,39 @@
+# Javascript and React Worksheet
+
+1. Is Javascript statically typed?
+no, it is dynamically-typed language
+ex) function f(x,y)
+
+
+2. How is Javascript similar to Java?
+OOP, consecpt objects
+use in web development
+platform indepenedece
+ 
+
+3. How would you describe a React component— what is it?
+    
+    
+4. What are the restrictions on how React components should be named? How about the html tags within it?
+    
+    
+5. Suppose you want your React component to return more than one HTML element. How do you do it?
+    
+    
+6. In the HTML embedded in a React component, how do you add dynamic data, e.g., how do you escape into javascript to grab dynamic data?
+
+7. How do you render a list of data in React?
+use the “map”
+
+1. Say you want a button that, when clicked, changes its text to “I was clicked”. Show a React component for that
+2. Explain “useState” in React. What is it for? What does the following statement do:
+
+```jsx
+const [text, setText] = useState('Click me');
+```
+
+1. How is “useState” in React similar to HTTP session objects in Java Servlets?
+
+1. What is the advantage of React’s *component*-based approach compared to a traditional or template-based approach?
+
+1. What is the advantage of React’s approach compared to traditional servlet approach?

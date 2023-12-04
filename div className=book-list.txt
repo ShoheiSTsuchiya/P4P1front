@@ -1,0 +1,66 @@
+<div className="book-list">
+
+        <div className="search-form">
+             <form onSubmit={(e) => {
+                 e.preventDefault();
+                 findBooksByAuthor();
+             }}>
+             <label>
+                 Search Book By Author:
+                 <input type="text" value={searchAuthor} onChange={e => setSearchAuthor(e.target.value)} />
+             </label>
+                 <button type="submit">Search</button>
+            </form>
+          </div>
+
+        {/* search by ID form */}
+        <div className="search-form">
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            findBooksByUserId(); // need to declare the function
+          }}>
+            <label>
+              Search Your Books By User ID:
+              <input type="text" value={userId} onChange={e => setUserId(e.target.value)} />
+            </label>
+            <button type="submit">Search</button>
+          </form>
+        </div>
+
+        {books.map(book => (
+          <div className="book-item">
+          <h3>{book.title}</h3>
+          <p>by {book.author}</p>
+          </div>
+        ))}
+
+     <form onSubmit={handleSubmit}>
+                <label>
+                    Title:
+                    <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+                </label>
+                <br />
+                <label>
+                    Author:
+                    <input type="text" value={author} onChange={e => setAuthor(e.target.value)} />
+                </label>
+                <br />
+
+                <label>
+                    Year:
+                    <input type="number" value={year} onChange={e => setYear(e.target.value)} />
+                </label>
+                <br />
+
+                {/* userID input field */}
+                <label>
+                  User ID:
+                  <input type="text" value={userId} onChange={e => setUserId(e.target.value)} />
+                </label>
+                <br />
+
+                <button type="submit">Submit</button>
+        </form>
+
+
+    </div>

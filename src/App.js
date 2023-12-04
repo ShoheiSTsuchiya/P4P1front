@@ -1,95 +1,1 @@
-import React, { useState } from 'react';
-import GameBoard from './components/GameBoard';
-import LetterInput from './components/LetterInput';
-import { getRandomPhrase, generateHiddenPhrase } from './gameLogic';
-import './App.css';
-
-// List of phrases for the game
-const phrases = ["Wheel Of Fortune", "Turn your wounds into wisdom", "Change the world from here"];
-// Maximum number of incorrect guesses allowed
-const maxWrongGuesses = 5;
-
-const App = () => {
-  // State for the current phrase, hidden phrase, and list of wrong guesses
-  const [phrase, setPhrase] = useState(getRandomPhrase(phrases));
-  const [hiddenPhrase, setHiddenPhrase] = useState(generateHiddenPhrase(phrase));
-  const [wrongGuesses, setWrongGuesses] = useState([]);
-
-  // Function to start a new game
-  const resetGame = () => {
-    const newPhrase = getRandomPhrase(phrases);
-    setPhrase(newPhrase);
-    setHiddenPhrase(generateHiddenPhrase(newPhrase));
-    setWrongGuesses([]);
-  };
-
-  // Function to handle the letter guess input from the user
-  const handleGuess = (guess) => {
-    // Check if the game is over, if so, exit the function early
-    if (!hiddenPhrase.includes('*') || wrongGuesses.length >= maxWrongGuesses) {
-      return;
-    }
-
-    // Validate the guess to ensure it's a single letter
-    if (!/^[a-z]$/i.test(guess)) {
-      alert('Invalid guess. Please enter a single alphabet letter.');
-      return; // Exit the function if the guess is invalid
-    }
-
-    // Convert the guess to lowercase for consistency
-    guess = guess.toLowerCase();
-    let isCorrect = false;
-    let newHiddenPhrase = '';
-
-    // Update the hidden phrase based on the guess
-    for (let i = 0; i < phrase.length; i++) {
-      if (guess === phrase[i].toLowerCase() && hiddenPhrase[i] === '*') {
-        isCorrect = true;
-        newHiddenPhrase += phrase[i];
-      } else {
-        newHiddenPhrase += hiddenPhrase[i];
-      }
-    }
-
-    // If the guess was correct, update the hidden phrase state
-    if (isCorrect) {
-      setHiddenPhrase(newHiddenPhrase);
-    } else {
-      // If the guess was incorrect, add it to the wrong guesses list
-      setWrongGuesses(wg => [...wg, guess]);
-    }
-  };
-
-  // Calculate the number of remaining guesses
-  const remainingGuesses = maxWrongGuesses - wrongGuesses.length;
-
-  // Determine the game end class based on the game state
-  const gameEndClass = !hiddenPhrase.includes('*') ? 'victory-animation' 
-                    : wrongGuesses.length >= maxWrongGuesses ? 'defeat-animation' 
-                    : '';
-
-  // Render the game UI
-  return (
-    <div className={`App fade-in ${gameEndClass}`}>
-      <h1 className="fade-in">React Wheel Of Fortune</h1>
-      <p>Welcome to the game! Try to guess the hidden phrase, one letter at a time.</p>
-      <p>You have a maximum of {maxWrongGuesses} incorrect guesses. Use them wisely!</p>
-      
-      <GameBoard className="fade-in" hiddenPhrase={hiddenPhrase} wrongGuesses={wrongGuesses} />
-      <LetterInput onGuess={handleGuess} disabled={remainingGuesses <= 0} />
-      
-      <p>You have {remainingGuesses} guesses left.</p>
-
-      {!hiddenPhrase.includes('*') && <p className="fade-in">Congratulations! You've uncovered the hidden phrase!</p>}
-      {wrongGuesses.length >= maxWrongGuesses && <p className="fade-in">Out of chances. The phrase was: "{phrase}".</p>}
-      
-      {(hiddenPhrase.includes('*') && wrongGuesses.length < maxWrongGuesses) ? (
-        <button className="state-change" onClick={resetGame}>Start New Game</button>
-      ) : (
-        <button className="fade-in" onClick={resetGame}>Play Again</button>
-      )}
-    </div>
-  );
-}
-
-export default App;
+import React, { useState, useEffect } from 'react';import GameBoard from './components/GameBoard';import LetterInput from './components/LetterInput';import LoginForm from "./LoginForm";import { getRandomPhrase, generateHiddenPhrase } from './gameLogic';import ApiService from './ApiService';import { getAuth, signOut } from 'firebase/auth';import './App.css';const phrases = ["Wheel Of Fortune", "Turn your wounds into wisdom", "Change the world from here"];const maxWrongGuesses = 5;const App = () => {  const [user, setUser] = useState(null);  const [googleId, setGoogleId] = useState('');  const [isLoggedIn, setIsLoggedIn] = useState(false);  const [phrase, setPhrase] = useState(getRandomPhrase(phrases));  const [hiddenPhrase, setHiddenPhrase] = useState(generateHiddenPhrase(phrase));  const [wrongGuesses, setWrongGuesses] = useState([]);  const [highScores, setHighScores] = useState([]);  const [userScores, setUserScores] = useState([])  const [score, setScore] = useState(0);  const [newHandle, setNewHandle] = useState('');   const [userHandle, setUserHandle] = useState('');  const [currentPage, setCurrentPage] = useState(0);  const [pageSize, setPageSize] = useState(10);  useEffect(() => {    console.log("User state changed:", user);    if (user) {      setGoogleId(user.uid);    }  }, [user]);  const resetGame = () => {    const newPhrase = getRandomPhrase(phrases);    setPhrase(newPhrase);    setHiddenPhrase(generateHiddenPhrase(newPhrase));    setWrongGuesses([]);    setScore(0);  };  const logoutGoogle = () => {    const auth = getAuth();    signOut(auth).then(() => {      setUser(null);  // Reset user state      // Additional processing can be added here if needed    });  };  const handleLogin = (loggedInUser) => {    // If no user data is present, simply return    if (!loggedInUser) {      return;    }    const userData = {      googleId: loggedInUser.uid,      name: loggedInUser.displayName,      gameHandle: loggedInUser.gameHandle || 'defaultHandle',    };    ApiService.createUser(userData);    setUserHandle(loggedInUser.gameHandle || 'defaultHandle');  };  const handleGuess = (guess) => {    // Check if the game is over, if so, exit the function early    if (!hiddenPhrase.includes('*') || wrongGuesses.length >= maxWrongGuesses) {      return;    }    // Validate the guess to ensure it's a single letter    if (!/^[a-z]$/i.test(guess)) {      alert('Invalid guess. Please enter a single alphabet letter.');      return; // Exit the function if the guess is invalid    }    // Convert the guess to lowercase for consistency    guess = guess.toLowerCase();    let isCorrect = false;    let newHiddenPhrase = '';    // Update the hidden phrase based on the guess    for (let i = 0; i < phrase.length; i++) {      if (guess === phrase[i].toLowerCase() && hiddenPhrase[i] === '*') {        isCorrect = true;        newHiddenPhrase += phrase[i];      } else {        newHiddenPhrase += hiddenPhrase[i];      }    }    // If the guess was correct, update the hidden phrase state    if (isCorrect) {      setScore(currentScore => currentScore + 3);      setHiddenPhrase(newHiddenPhrase);    } else {      // If the guess was incorrect, add it to the wrong guesses list      setWrongGuesses(wg => [...wg, guess]);      setScore(currentScore => Math.max(currentScore - 1, 0)); // Prevent score from going below 0    }  };  const isGameEnded = () => {    return !hiddenPhrase.includes('*') || wrongGuesses.length >= maxWrongGuesses;  };  useEffect(() => {    if (isGameEnded()) {      if (window.confirm('Do you want to save the game record?')) {        saveGameRecord();      }    }  }, [hiddenPhrase, wrongGuesses]);  useEffect(() => {    const auth = getAuth();    const unsubscribe = auth.onAuthStateChanged(newUser => {      setUser(newUser);  // Update user state    });    return () => unsubscribe();  // Unsubscribe listener on component unmount  }, []);  // Call handleLogin after the user has logged in  useEffect(() => {    if (user) {      handleLogin(user);    }  }, [user]);  const remainingGuesses = maxWrongGuesses - wrongGuesses.length;  const gameEndClass = !hiddenPhrase.includes('*') ? 'victory-animation'                    : wrongGuesses.length >= maxWrongGuesses ? 'defeat-animation' : '';  const formatDate = (dateString) => {    const options = { year: 'numeric', month: 'long', day: 'numeric' };    const date = new Date(dateString);    return date.toLocaleDateString(undefined, options);  };  const saveGameRecord = () => {    if (user) {      const gameRecord = {        googleId: user.uid,        phrase: phrase,        wrongGuesses: wrongGuesses.length,        success: !hiddenPhrase.includes('*'),        score: score,        date: new Date()      };      ApiService.saveGameRecord(user, gameRecord);    }  };  const fetchUserScores = () => {    ApiService.fetchUserScores(user, response => {      if (Array.isArray(response.data)) {        setUserScores(response.data); // Set scores to state if the response is an array      }    });  };  const fetchHighScores = () => {    ApiService.fetchHighScores(currentPage, pageSize,      response => setHighScores(response.data.content)    );  };  const handleNewHandleInput = (event) => {    setNewHandle(event.target.value);  };  const handleNewHandleChange = () => {    if (!user) {      alert('You must be logged in to change your handle.');      return;    }    ApiService.changeUserHandle(user, newHandle,      () => {        alert('Handle changed successfully.');        setUserHandle(newHandle);        setNewHandle('');      }    );  };  const deleteUserScore = (scoreId) => {    ApiService.deleteUserScore(scoreId,      () => {        alert('Score deleted successfully.');        fetchUserScores();      }    );  };  // Render the game UI  return (    <div className={`App fade-in ${gameEndClass}`}>      {user ? (        <>          <h1 className="fade-in">React Wheel Of Fortune</h1>          <p>Welcome to the game! User ID: {userHandle}</p>          <p>Try to guess the hidden phrase, one letter at a time.</p>          <p>You have a maximum of {maxWrongGuesses} incorrect guesses. Use them wisely!</p>          <GameBoard className="fade-in" hiddenPhrase={hiddenPhrase} wrongGuesses={wrongGuesses} />          <LetterInput onGuess={handleGuess} disabled={remainingGuesses <= 0} />          <p>You have {remainingGuesses} guesses left.</p>          {!hiddenPhrase.includes('*') && <p className="fade-in">Congratulations! You've uncovered the hidden phrase! Your score: {score}</p>}          {wrongGuesses.length >= maxWrongGuesses && <p className="fade-in">Out of chances. The phrase was: "{phrase}". Your score: {score}</p>}          {/* Offer to start a new game when the current game ends */}          {(!hiddenPhrase.includes('*') || wrongGuesses.length >= maxWrongGuesses) && (            <button className="state-change" onClick={() => {              if (window.confirm('Do you want to save the game record?')) {                saveGameRecord();              }              resetGame();            }}>Start New Game</button>          )}          {/* Input field for changing the user handle */}          <div>            <input              type="text"              value={newHandle}              onChange={handleNewHandleInput}              placeholder="New Handle"              style={{ width: "calc(100% + 40px)" }}            />            <button onClick={handleNewHandleChange}>Change User Handle</button>          </div>          {/* Buttons for fetching user and high scores */}          <div>            <button onClick={fetchUserScores}>Fetch User Scores</button>            <button onClick={fetchHighScores}>Fetch High Scores</button>          </div>          {/* Pagination controls for user scores */}          <div>            <button onClick={() => setCurrentPage(p => Math.max(0, p - 1))}>Previous</button>            <span>Page {currentPage + 1}</span>            <button onClick={() => setCurrentPage(p => p + 1)}>Next</button>          </div>          <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>            <option value="1">1</option>            <option value="3">3</option>            <option value="5">5</option>          </select>          {/* Display user scores */}          <div>            <h3>User Scores</h3>            {userScores.map((score, index) => (              <div key={index}>                <p>User ID: {score.googleId}</p>                <p>Score: {score.score} - Date: {formatDate(score.date)}</p>                <button onClick={() => deleteUserScore(score.id)}>Delete Score</button>              </div>            ))}          </div>          {/* Pagination controls for high scores */}          <div>            <button onClick={() => setCurrentPage(p => Math.max(0, p - 1))}>Previous</button>            <span>Page {currentPage + 1}</span>            <button onClick={() => setCurrentPage(p => p + 1)}>Next</button>          </div>          <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>            <option value="1">1</option>            <option value="3">3</option>            <option value="5">5</option>          </select>          {/* Display high scores */}          <div>            <h3>High Scores</h3>            {highScores.slice(currentPage * pageSize, (currentPage + 1) * pageSize).map((score, index) => (              <div key={index}>                <p>User ID: {score.googleId}</p>                <p>Score: {score.score}</p>                <p>Date: {formatDate(score.date)}</p>              </div>            ))}          </div>          {/* Logout button */}          <div className="logout-section">            <button onClick={logoutGoogle}>Log out</button>          </div>        </>      ) : (        // Login form        <LoginForm LoginEvent={handleLogin} />      )}    </div>  );};export default App;

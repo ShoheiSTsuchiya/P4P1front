@@ -1,109 +1,110 @@
-/* Base styles for the body, setting font and background gradient */
-body {
+/* ベースのスタイル */
+body, html {
+  margin: 0;
+  padding: 0;
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-  position: relative;
-  overflow: hidden;
+  background-color: #f0f0f0;
+  color: #333;
 }
 
-/* Centered heading style */
+/* App container */
+.App {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* タイトルとサブタイトル */
 h1 {
-  text-align: center;
+  color: #2a2a2a;
+  font-size: 36px;
+  margin-bottom: 10px;
 }
 
-/* Style for game phrases with spacing and size */
-.GameBoard-phrase {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 3px;
-  word-spacing: 10px;
+p {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
 }
 
-/* Style for incorrect guesses with color */
-.GameBoard-wrongGuesses {
-  color: red;
-  text-align: center;
+/* ゲームボードと入力フィールドのスタイル */
+.GameBoard, .LetterInput {
+  margin-top: 30px;
+}
+
+/* スコアとユーザー情報のスタイル */
+.UserScores, .HighScores, .ScoreItem {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* ボタンの基本スタイル */
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
   margin-top: 20px;
 }
 
-/* Button hover effect */
 button:hover {
-  background-color: #4cae4c;
-  transform: translateY(-2px);
+  background-color: #0056b3;
 }
 
-/* Button active state effect */
-button:active {
-  transform: translateY(1px);
+/* ページネーションと選択フィールドのスタイル */
+span, select {
+  font-size: 16px;
+  color: #333;
+  margin-top: 20px;
 }
 
-/* Disabled button style */
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-left: 10px;
 }
 
-/* Fade-in animation for elements */
-.fade-in {
-  animation: fadeIn 1s;
-}
-
-/* Keyframes for the fade-in animation */
+/* アニメーションの追加 */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* Transition effect for state changes */
-.state-change {
-  transition: background-color 0.3s ease;
+.fade-in {
+  animation: fadeIn 1s;
 }
 
-/* Game board specific styles */
-.game-board {
-  border: 2px solid #444;
-  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+.victory-animation, .defeat-animation {
+  color: #007bff;
+  font-weight: bold;
 }
 
-/* High contrast mode for better visibility */
-.high-contrast {
-  color: #000;
-  background-color: #fff;
+/* 入力フィールドのスタイル */
+input[type="text"] {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 100%;
 }
 
-/* Focus outline for accessibility */
-button:focus, input:focus, select:focus {
-  outline: 3px solid #5cb85c;
+/* スコア削除ボタンのスタイル */
+.DeleteScoreButton {
+  background-color: #ff4444;
 }
 
-
-@keyframes victoryFlash {
-  0%, 100% { background-color: #c2e9fb; }
-  50% { background-color: #a1c4fd; }
+.DeleteScoreButton:hover {
+  background-color: #cc0000;
 }
-
-
-@keyframes defeatShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
-
-.victory-animation {
-  animation: victoryFlash 0.5s infinite alternate;
-}
-
-.defeat-animation {
-  animation: defeatShake 1.5s;
-  display: inline-block;
-  position: relative;
-  overflow: visible; /* Ensure the shaking effect is visible */
-}
-
-.App {
-  position: relative; /* Needed for proper animation of child elements */
-  overflow: hidden; /* Only use if you want to contain all child animations within the .App div */
-}
-
-
